@@ -1,0 +1,25 @@
+import json
+import requests
+
+CLIENT_ID = "MTg1MDQzOTB8MTU2OTQ1MDUzNC40"
+
+# Get user team input
+team = input("Enter a team name:  ")
+
+# Format input correctly for request
+team = team.replace(" ", "+")
+
+# Send a request to seatgeek querying for events involving "team" and authenticating with "CLIENT_ID"
+# They will send back a json file with all of the information
+r = requests.get("https://api.seatgeek.com/2/events?q="+team+"&taxonomies.name=sports&type=nba&client_id="+CLIENT_ID)
+
+print ("\nWe found these events:\n")
+x = json.loads(r.content)
+
+for event in x["events"]:
+  #avg_price = avg_price + float(event["stats"]["average_price"])
+	print (event["title"])
+  #test = str(event["stats"]["average_price"])
+	print ("\tAvg Price:   $" + str(event["stats"]["average_price"]))
+	
+	print("\n")
